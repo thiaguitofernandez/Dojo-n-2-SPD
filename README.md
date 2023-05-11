@@ -9,7 +9,7 @@
 
 
 ## Proyecto: Semaforo
-![Tinkercad](./img/image.png)
+![Tinkercad](./img/)
 
 
 ## Descripción
