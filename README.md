@@ -183,7 +183,7 @@ Con estas dos funciones los led se prenden y se apagan.Estas ocurren en diferent
 
 
 pd:recorrido de vuelta a implementar
-~~~
+
 
 
 ## Link al proyecto :eggplant:
