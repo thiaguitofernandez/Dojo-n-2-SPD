@@ -1,0 +1,158 @@
+// C++ code
+//
+#define	ARRIBA_DERECHA 13
+#define ARRIBA 12
+#define ARRIBA_IZQUIERDA 11
+#define CENTRO 10
+#define ABAJO_IZQUIERDA 9
+#define ABAJO 8
+#define ABAJO_DERECHA 7
+#define estacion_final 6
+#define estacion_tercera 5
+#define estacion_segunda 4
+#define estacion_inicial 3
+#define buzzer 14
+#define pulsador 15
+
+int i = 4;
+int encendido = LOW;
+
+void setup()
+{
+  pinMode(ARRIBA_DERECHA, OUTPUT);
+  pinMode(ARRIBA, OUTPUT);
+  pinMode(ARRIBA_IZQUIERDA, OUTPUT);
+  pinMode(CENTRO, OUTPUT);
+  pinMode(ABAJO_IZQUIERDA, OUTPUT);
+  pinMode(ABAJO, OUTPUT);
+  pinMode(ABAJO_DERECHA, OUTPUT);
+  pinMode(estacion_final,OUTPUT);
+  pinMode(estacion_tercera,OUTPUT);
+  pinMode(estacion_segunda,OUTPUT);
+  pinMode(estacion_inicial,OUTPUT);
+  pinMode(buzzer,OUTPUT);
+  pinMode(pulsador,INPUT);//pull up externo
+  Serial.begin(9600);
+}
+
+void loop()
+{	
+    if (digitalRead(pulsador) == HIGH){
+  	    encendido = digitalRead(pulsador);
+    }
+    if (encendido == HIGH ){
+        i--;
+        Serial.print("llegando a la estacion: ");
+  	    eleccion_de_numero(i);
+	    if(i < 0){
+            i = 4;
+        }
+    }
+}
+
+void prende_led(int led){  	
+  digitalWrite(led, HIGH);//encender LED
+}
+void apaga_led(int led){
+  digitalWrite(led, LOW);
+}
+
+
+void Prende_numero_cero(){
+  	prende_led(ARRIBA);
+    prende_led(ARRIBA_DERECHA);
+    prende_led(ABAJO_DERECHA);
+    prende_led(ABAJO);
+    prende_led(ABAJO_IZQUIERDA);
+    prende_led(ARRIBA_IZQUIERDA);
+}
+void Apaga_numero_cero(){
+  	apaga_led(ARRIBA);
+  	apaga_led(ARRIBA_DERECHA);
+  	apaga_led(ABAJO_DERECHA);
+  	apaga_led(ABAJO);
+  	apaga_led(ABAJO_IZQUIERDA);
+  	apaga_led(ARRIBA_IZQUIERDA);
+}
+
+
+
+
+void Prende_numero_uno(){
+    prende_led(ABAJO_DERECHA); 
+}
+
+
+
+void Prende_numero_dos(){
+    prende_led(ABAJO_IZQUIERDA);
+}
+void Apaga_numero_dos(){
+    apaga_led(ARRIBA);
+    apaga_led(CENTRO);
+    apaga_led(ABAJO_IZQUIERDA);
+    apaga_led(ABAJO); 
+}
+
+
+
+void Prende_numero_tres(){
+    prende_led(ARRIBA);
+    prende_led(ARRIBA_DERECHA);
+    prende_led(CENTRO);
+    prende_led(ABAJO_DERECHA);
+    prende_led(ABAJO);
+ 
+ 
+}
+void Apaga_numero_tres(){
+ 
+    apaga_led(ABAJO_DERECHA);
+}
+
+void eleccion_de_numero(int i){
+    switch (i)
+    {
+    case 0:
+        Prende_numero_cero();
+        prende_led(estacion_final);
+        Serial.println("estacion final");
+        sonido(1500,500,500,1000);
+        apaga_led(estacion_final);
+        Apaga_numero_cero();
+        break;
+    case 1:
+        Prende_numero_uno();
+        prende_led(estacion_tercera);
+        Serial.println("estacion cuarta");
+        sonido(1500,400,500,1000);
+        apaga_led(estacion_tercera);
+        break;
+    case 2:
+        Prende_numero_dos();
+        prende_led(estacion_segunda);
+        Serial.println("estacion tercera");
+        sonido(1500,300,500,1000);
+        apaga_led(estacion_segunda);
+        Apaga_numero_dos();
+        break;
+    case 3:
+        Prende_numero_tres();
+        prende_led(estacion_inicial);
+        Serial.println("estacion inicial");
+        sonido(1500,200,500,1000);
+        apaga_led(estacion_inicial);
+        Apaga_numero_tres();
+        break;
+    }
+}
+void sonido(int tiempo, int potencia, int suena, int espera){
+  int contador = 0;
+  while (contador != (tiempo / (suena+espera)) ){
+  		tone(buzzer, potencia, suena);
+  		delay(espera);
+  		contador++;
+  }
+  contador = 0;
+}
+
